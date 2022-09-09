@@ -1,8 +1,6 @@
 package org.yarkin.algods.tree.binarytree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTree {
     private Node root;
@@ -31,6 +29,11 @@ public class BinaryTree {
         System.out.println(depthFirstTraversal);
     }
 
+    public void printBreadthFirstTraversal() {
+        List<Character> breadthFirstTraversal = getBreadthFirstTraversal();
+        System.out.println(breadthFirstTraversal);
+    }
+
     // stack implementation
     List<Character> getDepthFirstTraversal() {
         List<Character> values = new ArrayList<>();
@@ -49,6 +52,26 @@ public class BinaryTree {
         }
 
         return values;
+    }
+
+    // queue based algorithm
+    List<Character> getBreadthFirstTraversal() {
+        List<Character> result = new ArrayList<>();
+        Queue<Node> nodes = new LinkedList<>();
+        nodes.add(root);
+
+        while (!nodes.isEmpty()) {
+            Node current = nodes.remove();
+            if (current == null) {
+                continue;
+            }
+
+            result.add(current.value);
+            nodes.add(current.left);
+            nodes.add(current.right);
+        }
+
+        return result;
     }
 
     static class Node {

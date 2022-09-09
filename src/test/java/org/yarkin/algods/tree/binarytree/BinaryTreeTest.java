@@ -38,5 +38,10 @@ class BinaryTreeTest {
         assertEquals(List.of('a', 'b', 'd', 'e', 'c', 'f'), depthFirstTraversal);
     }
 
-
+    @Test
+    @DisplayName("Breadth first traversal test")
+    void getBreadthFirstTraversal() {
+        List<Character> breadthFirstTraversal = binaryTree.getBreadthFirstTraversal();
+        assertEquals(List.of('a', 'b', 'c', 'd', 'e', 'f'), breadthFirstTraversal);
+    }
 }
