@@ -2,57 +2,41 @@ package org.yarkin.algods.tree.binarytree;
 
 import java.util.*;
 
-public class BinaryTree {
-    private Node root;
+public class BinaryTree<T> {
+    private final Node<T> root;
 
-    /**           a
-     *           |  \
-     *          b    c
-     *         | \    \
-     *        d   e    f
-     */
-    public BinaryTree() {
-        root = new Node('a');
-        root.left = new Node('b');
-        root.right = new Node('c');
-        root.left.left = new Node('d');
-        root.left.right = new Node('e');
-        root.right.right = new Node('f');
-    }
-
-    BinaryTree(Node root) {
+    BinaryTree(Node<T> root) {
         this.root = root;
     }
 
     public void printDepthFirstTraversal() {
-        List<Character> depthFirstTraversal = getDepthFirstTraversal();
+        List<T> depthFirstTraversal = getDepthFirstTraversal();
         System.out.println(depthFirstTraversal);
     }
 
     public void printBreadthFirstTraversal() {
-        List<Character> breadthFirstTraversal = getBreadthFirstTraversal();
+        List<T> breadthFirstTraversal = getBreadthFirstTraversal();
         System.out.println(breadthFirstTraversal);
     }
 
-    public boolean contains(char value) {
+    public boolean contains(T value) {
         return getBreadthFirstTraversal().contains(value);
     }
 
     public String concat() {
         StringBuilder stringBuilder = new StringBuilder();
-        getBreadthFirstTraversal().stream()
-                .forEach(stringBuilder::append);
+        getBreadthFirstTraversal().forEach(stringBuilder::append);
         return stringBuilder.toString();
     }
 
     // stack implementation
-    List<Character> getDepthFirstTraversal() {
-        List<Character> values = new ArrayList<>();
-        Stack<Node> nodes = new Stack<>();
+    List<T> getDepthFirstTraversal() {
+        List<T> values = new ArrayList<>();
+        Stack<Node<T>> nodes = new Stack<>();
         nodes.push(root);
 
         while (!nodes.empty()) {
-            Node current = nodes.pop();
+            Node<T> current = nodes.pop();
             values.add(current.value);
 
             if (current.right != null) {
@@ -67,13 +51,13 @@ public class BinaryTree {
     }
 
     // queue based algorithm
-    List<Character> getBreadthFirstTraversal() {
-        List<Character> result = new ArrayList<>();
-        Queue<Node> nodes = new LinkedList<>();
+    List<T> getBreadthFirstTraversal() {
+        List<T> result = new ArrayList<>();
+        Queue<Node<T>> nodes = new LinkedList<>();
         nodes.add(root);
 
         while (!nodes.isEmpty()) {
-            Node current = nodes.remove();
+            Node<T> current = nodes.remove();
 
             result.add(current.value);
             if (current.left != null) {
@@ -87,12 +71,12 @@ public class BinaryTree {
         return result;
     }
 
-    static class Node {
-        char value;
-        Node right;
-        Node left;
+    static class Node<T> {
+        T value;
+        Node<T> right;
+        Node<T> left;
 
-        public Node(char value) {
+        public Node(T value) {
             this.value = value;
         }
     }

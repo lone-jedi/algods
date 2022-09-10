@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BinaryTreeTest {
 
-    private BinaryTree binaryTree;
+    private BinaryTree<Character> binaryTree;
 
     /** Binary    a
      *   tree    |  \
@@ -21,14 +21,14 @@ class BinaryTreeTest {
      */
     @BeforeEach
     void beforeEach() {
-        Node root = new Node('a');
-        root.left = new Node('b');
-        root.right = new Node('c');
-        root.left.left = new Node('d');
-        root.left.right = new Node('e');
-        root.right.right = new Node('f');
+        Node<Character> root = new Node<>('a');
+        root.left = new Node<>('b');
+        root.right = new Node<>('c');
+        root.left.left = new Node<>('d');
+        root.left.right = new Node<>('e');
+        root.right.right = new Node<>('f');
 
-        binaryTree = new BinaryTree(root);
+        binaryTree = new BinaryTree<>(root);
     }
 
     @Test
@@ -48,15 +48,15 @@ class BinaryTreeTest {
     @Test
     @DisplayName("Search node value in binary tree")
     void searchValueInTree() {
-        assertEquals(true, binaryTree.contains('a'));
-        assertEquals(true, binaryTree.contains('d'));
-        assertEquals(true, binaryTree.contains('f'));
+        assertTrue(binaryTree.contains('a'));
+        assertTrue(binaryTree.contains('d'));
+        assertTrue(binaryTree.contains('f'));
 
-        assertEquals(false, binaryTree.contains('x'));
+        assertFalse(binaryTree.contains('x'));
     }
 
     @Test
-    @DisplayName("Sum of elements from binary tree")
+    @DisplayName("Concatenation of elements from binary tree")
     void treeSum() {
         assertEquals("abcdef", binaryTree.concat());
     }
