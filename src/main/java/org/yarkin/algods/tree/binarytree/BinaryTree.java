@@ -34,6 +34,17 @@ public class BinaryTree {
         System.out.println(breadthFirstTraversal);
     }
 
+    public boolean contains(char value) {
+        return getBreadthFirstTraversal().contains(value);
+    }
+
+    public String concat() {
+        StringBuilder stringBuilder = new StringBuilder();
+        getBreadthFirstTraversal().stream()
+                .forEach(stringBuilder::append);
+        return stringBuilder.toString();
+    }
+
     // stack implementation
     List<Character> getDepthFirstTraversal() {
         List<Character> values = new ArrayList<>();
@@ -42,13 +53,14 @@ public class BinaryTree {
 
         while (!nodes.empty()) {
             Node current = nodes.pop();
-            if (current == null) {
-                continue;
-            }
-
             values.add(current.value);
-            nodes.push(current.right);
-            nodes.push(current.left);
+
+            if (current.right != null) {
+                nodes.push(current.right);
+            }
+            if (current.left != null) {
+                nodes.push(current.left);
+            }
         }
 
         return values;
@@ -62,13 +74,14 @@ public class BinaryTree {
 
         while (!nodes.isEmpty()) {
             Node current = nodes.remove();
-            if (current == null) {
-                continue;
-            }
 
             result.add(current.value);
-            nodes.add(current.left);
-            nodes.add(current.right);
+            if (current.left != null) {
+                nodes.add(current.left);
+            }
+            if (current.right != null) {
+                nodes.add(current.right);
+            }
         }
 
         return result;

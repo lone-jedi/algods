@@ -44,4 +44,20 @@ class BinaryTreeTest {
         List<Character> breadthFirstTraversal = binaryTree.getBreadthFirstTraversal();
         assertEquals(List.of('a', 'b', 'c', 'd', 'e', 'f'), breadthFirstTraversal);
     }
+
+    @Test
+    @DisplayName("Search node value in binary tree")
+    void searchValueInTree() {
+        assertEquals(true, binaryTree.contains('a'));
+        assertEquals(true, binaryTree.contains('d'));
+        assertEquals(true, binaryTree.contains('f'));
+
+        assertEquals(false, binaryTree.contains('x'));
+    }
+
+    @Test
+    @DisplayName("Sum of elements from binary tree")
+    void treeSum() {
+        assertEquals("abcdef", binaryTree.concat());
+    }
 }
