@@ -57,7 +57,12 @@ class BinaryTreeTest {
 
     @Test
     @DisplayName("Concatenation of elements from binary tree")
-    void treeSum() {
+    void treeConcat() {
         assertEquals("abcdef", binaryTree.concat());
+    }
+
+    @Test
+    void testMaxHeight() {
+        assertEquals(3, binaryTree.maxHeight());
     }
 }

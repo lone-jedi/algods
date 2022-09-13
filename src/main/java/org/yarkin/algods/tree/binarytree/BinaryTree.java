@@ -3,7 +3,7 @@ package org.yarkin.algods.tree.binarytree;
 import java.util.*;
 
 public class BinaryTree<T> {
-    private final Node<T> root;
+    protected final Node<T> root;
 
     BinaryTree(Node<T> root) {
         this.root = root;
@@ -27,6 +27,22 @@ public class BinaryTree<T> {
         StringBuilder stringBuilder = new StringBuilder();
         getBreadthFirstTraversal().forEach(stringBuilder::append);
         return stringBuilder.toString();
+    }
+
+    public int maxHeight() {
+        return maxHeight(root, 1, 1);
+    }
+
+    private int maxHeight(Node current, int level, int max) {
+        if (current.left != null) {
+            max = maxHeight(current.left, level + 1, max);
+        }
+
+        if (current.right != null) {
+            max = maxHeight(current.right, level + 1, max);
+        }
+
+        return Math.max(max, level);
     }
 
     // stack implementation
