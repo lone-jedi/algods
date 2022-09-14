@@ -67,11 +67,16 @@ public class Graph<T> {
         validateKey(start);
         validateKey(end);
 
+        boolean[] history = new boolean[data.length];
         Queue<Integer> keysQueue= new LinkedList<>();
         keysQueue.add(start);
 
         while (!keysQueue.isEmpty()) {
             int current = keysQueue.remove();
+            if (history[current]) {
+                continue;
+            }
+
             if (current == end) {
                 return true;
             }
@@ -79,6 +84,8 @@ public class Graph<T> {
             for (int i = 0; i < keys[current].length ; i++) {
                 keysQueue.add(keys[current][i]);
             }
+
+            history[current] = true;
         }
 
         return false;

@@ -20,7 +20,7 @@ class GraphTest {
 
     @BeforeEach
     void before() {
-        int[][] keys =   {{1, 2, 3}, {5}, {}, {2, 4}, {},  {4}};
+        int[][] keys =   {{1, 2, 3}, {5},  {}, {2, 4}, {}, {4}};
         Character[] values = {'a',   'b', 'c', 'd',   'e', 'f'};
         //                     0      1    2    3      4    5
         graph = new Graph<>(keys, values);
@@ -56,5 +56,21 @@ class GraphTest {
     void hasNoPathTest() {
         assertFalse(graph.hasPath(1, 2));
         assertFalse(graph.hasPath(3, 0));
+    }
+
+    @Test
+    @DisplayName("Has path, but loop exists")
+    void hasLoopPathTest() {
+        //    d  - e
+        //    |
+        //    a
+        //    |  \
+        //    b -  c
+        int[][] keys =   {{1, 2, 3}, {0, 2}, {0, 1},   {4, 0},  {} };
+        Character[] values = {'a',    'b',      'c',     'd',   'e'};
+        //                     0       1         2        3      4
+        Graph<Character> loopGraph = new Graph<>(keys, values);
+
+        assertTrue(loopGraph.hasPath(0, 4));
     }
 }
