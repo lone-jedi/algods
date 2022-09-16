@@ -58,19 +58,48 @@ class GraphTest {
         assertFalse(graph.hasPath(3, 0));
     }
 
+    /**
+     *   d  - e
+     *   |
+     *   a
+     *   | \
+     *   b -  c
+     */
     @Test
     @DisplayName("Has path, but loop exists")
     void hasLoopPathTest() {
-        //    d  - e
-        //    |
-        //    a
-        //    |  \
-        //    b -  c
         int[][] keys =   {{1, 2, 3}, {0, 2}, {0, 1},   {4, 0},  {} };
         Character[] values = {'a',    'b',      'c',     'd',   'e'};
         //                     0       1         2        3      4
         Graph<Character> loopGraph = new Graph<>(keys, values);
 
         assertTrue(loopGraph.hasPath(0, 4));
+    }
+
+    /**
+     *   d  - e
+     *
+     *   a    f
+     *   | \
+     *   b -  c
+     */
+    @Test
+    @DisplayName("Get number of connected components")
+    void connectedComponentsCountTest() {
+        int[][] keys =   {  {1, 2}, {0, 2}, {0, 1},    {4}, {},    {}};
+        Character[] values = {'a',    'b',    'c',     'd', 'e',   'f'};
+        //                     0       1       2        3    4      5
+        Graph<Character> loopGraph = new Graph<>(keys, values);
+
+        Graph<Character> newGraph = new Graph<>(
+                new int[][] {{8, 1, 5}, {0}, {3, 4}, {}, {3, 2}, {0, 8}, {}, {}, {0, 5}},
+                new Character[] {}
+        );
+
+        assertEquals(2, newGraph.connectedComponentsCount());
+        assertEquals(3, loopGraph.connectedComponentsCount());
+        assertEquals(1, graph.connectedComponentsCount());
+        assertEquals(0, new Graph<>(new int[][] {}, new Character[] {}));
+        assertEquals(0, new Graph<>(null, null));
     }
 }

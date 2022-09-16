@@ -91,6 +91,37 @@ public class Graph<T> {
         return false;
     }
 
+    /**
+     * DOES NOT WORK YET
+     *
+     * @return connected graph nodes count
+     */
+    int connectedComponentsCount() {
+        int count = 0;
+        boolean[] visited = new boolean[keys.length];
+        for (int i = 0; i < keys.length; i++) {
+            if (explore(i, visited)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private boolean explore(int current, boolean[] visited) {
+        if (visited[current]) {
+            return false;
+        }
+
+        visited[current] = true;
+
+        for (int i = 0; i < keys[current].length; i++) {
+            explore(i, visited);
+        }
+
+        return true;
+    }
+
     private void validateKey(int key) {
         if(key >= 0 && key < data.length) {
             return;
