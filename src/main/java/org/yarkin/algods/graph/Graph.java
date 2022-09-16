@@ -53,6 +53,47 @@ public class Graph<T> {
 
         while (!keysQueue.isEmpty()) {
             int current = keysQueue.remove();
+
+            result.add(data[current]);
+
+            for (int i = 0; i < keys[current].length ; i++) {
+                keysQueue.add(keys[current][i]);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * @return breadth first traversal only unique values from root
+     */
+    List<T> breadthFirstUnique() {
+        boolean[] visited = new boolean[keys.length];
+        return breadthFirstUnique(0, visited);
+    }
+
+    List<T> breadthFirstUnique(int key) {
+        boolean[] visited = new boolean[keys.length];
+        return breadthFirstUnique(key, visited);
+    }
+
+    List<T> breadthFirstUnique(int key, boolean[] visited) {
+        validateKey(key);
+
+        Queue<Integer> keysQueue= new LinkedList<>();
+        List<T> result = new ArrayList<>();
+
+        keysQueue.add(key);
+
+        while (!keysQueue.isEmpty()) {
+            int current = keysQueue.remove();
+
+            if (visited[current]) {
+                continue;
+            }
+
+            visited[current] = true;
+
             result.add(data[current]);
 
             for (int i = 0; i < keys[current].length ; i++) {
@@ -106,6 +147,25 @@ public class Graph<T> {
         }
 
         return count;
+    }
+
+    public int getLargestComponent() {
+        boolean[] visited = new boolean[keys.length];
+        int maxCount = 0;
+
+        for (int i = 0; i < keys.length; i++) {
+            if (visited[i]) {
+                continue;
+            }
+
+            int size = breadthFirstUnique(i, visited).size();
+
+            if(size > maxCount) {
+                maxCount = size;
+            }
+        }
+
+        return maxCount;
     }
 
     private boolean explore(int current, boolean[] visited) {
