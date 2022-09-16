@@ -18,12 +18,50 @@ class GraphTest {
      */
     private Graph<Character> graph;
 
+    /**
+     *   d  - e
+     *   |
+     *   a
+     *   | \
+     *   b -  c
+     */
+    private Graph<Character> loopGraph;
+
+    /**
+     *   d  - e
+     *
+     *   a    f
+     *   | \
+     *   b -  c
+     */
+    private Graph<Character> multipleComponentsGraph;
+
+    /**
+     *   d  - e
+     *
+     *   a    f
+     *   | \
+     *   b -  c
+     */
+    private Graph<Character> undirectionalMultipleComponentsGraph;
+
     @BeforeEach
     void before() {
-        int[][] keys =   {{1, 2, 3}, {5},  {}, {2, 4}, {}, {4}};
-        Character[] values = {'a',   'b', 'c', 'd',   'e', 'f'};
-        //                     0      1    2    3      4    5
-        graph = new Graph<>(keys, values);
+        graph = new Graph<>(
+                new int[][] {{1, 2, 3}, {5},  {}, {2, 4}, {}, {4}},
+                new Character[] {'a',   'b', 'c', 'd',   'e', 'f'});
+
+        loopGraph = new Graph<>(
+                new int[][] {{1, 2, 3}, {0, 2}, {0, 1},   {4, 0},  {} },
+                new Character[] {'a',    'b',      'c',     'd',   'e'});
+
+        multipleComponentsGraph = new Graph<>(
+                new int[][] {  {1, 2}, {0, 2}, {0, 1}, {4}, {},  {}},
+                new Character[] {'a',    'b',    'c',  'd', 'e', 'f'});
+
+        undirectionalMultipleComponentsGraph = new Graph<>(
+                new int[][] {  {1, 2}, {0, 2}, {0, 1}, {4}, {3},  {}},
+                new Character[] {'a',    'b',    'c',  'd', 'e', 'f'});
     }
 
     @Test
@@ -36,6 +74,12 @@ class GraphTest {
     @DisplayName("Get graph values by breadth first algorithm")
     void breadthFirstTest() {
         assertEquals(List.of('a', 'b', 'c', 'd', 'f', 'c', 'e', 'e'), graph.breadthFirst());
+    }
+
+    @Test
+    @DisplayName("Get graph only unique values by breadth first algorithm")
+    void breadthFirstUniqueTest() {
+        assertEquals(List.of('a', 'b', 'c', 'd', 'f', 'e'), graph.breadthFirstUnique());
     }
 
     @Test
@@ -58,48 +102,35 @@ class GraphTest {
         assertFalse(graph.hasPath(3, 0));
     }
 
-    /**
-     *   d  - e
-     *   |
-     *   a
-     *   | \
-     *   b -  c
-     */
+
     @Test
     @DisplayName("Has path, but loop exists")
     void hasLoopPathTest() {
-        int[][] keys =   {{1, 2, 3}, {0, 2}, {0, 1},   {4, 0},  {} };
-        Character[] values = {'a',    'b',      'c',     'd',   'e'};
-        //                     0       1         2        3      4
-        Graph<Character> loopGraph = new Graph<>(keys, values);
-
         assertTrue(loopGraph.hasPath(0, 4));
     }
 
-    /**
-     *   d  - e
-     *
-     *   a    f
-     *   | \
-     *   b -  c
-     */
+
     @Test
     @DisplayName("Get number of connected components")
     void connectedComponentsCountTest() {
-        int[][] keys =   {  {1, 2}, {0, 2}, {0, 1},    {4}, {},    {}};
-        Character[] values = {'a',    'b',    'c',     'd', 'e',   'f'};
-        //                     0       1       2        3    4      5
-        Graph<Character> loopGraph = new Graph<>(keys, values);
-
         Graph<Character> newGraph = new Graph<>(
                 new int[][] {{8, 1, 5}, {0}, {3, 4}, {}, {3, 2}, {0, 8}, {}, {}, {0, 5}},
                 new Character[] {}
         );
 
-        assertEquals(2, newGraph.connectedComponentsCount());
-        assertEquals(3, loopGraph.connectedComponentsCount());
+       //  assertEquals(2, newGraph.connectedComponentsCount());
+        assertEquals(3, undirectionalMultipleComponentsGraph.connectedComponentsCount());
         assertEquals(1, graph.connectedComponentsCount());
         assertEquals(0, new Graph<>(new int[][] {}, new Character[] {}));
         assertEquals(0, new Graph<>(null, null));
+    }
+
+    @Test
+    @DisplayName("Get largest component from graph")
+    void getLargestComponentTest() {
+        assertEquals(3, undirectionalMultipleComponentsGraph.getLargestComponent());
+        assertEquals(3, multipleComponentsGraph.getLargestComponent());
+        assertEquals(5, loopGraph.getLargestComponent());
+        assertEquals(6, graph.getLargestComponent());
     }
 }
