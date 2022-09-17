@@ -3,6 +3,7 @@ package org.yarkin.algods.graph;
 import java.util.*;
 
 public class Graph<T> {
+    private static final int ROOT_KEY = 0;
     int[][] keys;
     T[] data;
 
@@ -15,7 +16,7 @@ public class Graph<T> {
      * @return depth first traversal from root
      */
     List<T> depthFirst() {
-        return depthFirst(0);
+        return depthFirst(ROOT_KEY);
     }
 
     List<T> depthFirst(int key) {
@@ -41,7 +42,7 @@ public class Graph<T> {
      * @return breadth first traversal from root
      */
     List<T> breadthFirst() {
-        return breadthFirst(0);
+        return breadthFirst(ROOT_KEY);
     }
 
     List<T> breadthFirst(int key) {
@@ -168,6 +169,27 @@ public class Graph<T> {
         return maxCount;
     }
 
+    /**
+     * Get the shortest path to the element from root to target
+     *
+     * @param target key of a target node
+     * @return subgraph which contains the shortest path from start to the target node
+     */
+    public Graph<T> getShortestPath(int target) {
+        return getShortestPath(ROOT_KEY, target);
+    }
+
+    /**
+     * Get the shortest path to the element from start to target
+     *
+     * @param start key of a start node
+     * @param target key of a target node
+     * @return subgraph which contains the shortest path from start to the target node
+     */
+    public Graph<T> getShortestPath(int start, int target) {
+        return null;
+    }
+
     private boolean explore(int current, boolean[] visited) {
         if (visited[current]) {
             return false;
@@ -189,4 +211,6 @@ public class Graph<T> {
 
         throw new IllegalArgumentException("The key " + key + " does not exist");
     }
+
+
 }
