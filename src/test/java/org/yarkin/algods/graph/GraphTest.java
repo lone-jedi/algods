@@ -1,6 +1,7 @@
 package org.yarkin.algods.graph;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -45,6 +46,16 @@ class GraphTest {
      */
     private Graph<Character> undirectionalMultipleComponentsGraph;
 
+    /**        (2)
+     *      b  -  c
+     * (1) |      \
+     *   a         \ (3)     --> shortest path from a to x: a-b-x
+     * (1) \        \
+     *       d ----- x
+     *           (2)
+     */
+    private Graph<Character> shortestPathGraph;
+
     @BeforeEach
     void before() {
         graph = new Graph<>(
@@ -62,6 +73,10 @@ class GraphTest {
         undirectionalMultipleComponentsGraph = new Graph<>(
                 new int[][] {  {1, 2}, {0, 2}, {0, 1}, {4}, {3},  {}},
                 new Character[] {'a',    'b',    'c',  'd', 'e', 'f'});
+
+        shortestPathGraph = new Graph<>(
+                new int[][]   {{1, 3}, {2}, {4}, {4}, {} },
+                new Character[]{'a',   'b', 'c', 'd', 'x'});
     }
 
     @Test
@@ -109,8 +124,8 @@ class GraphTest {
         assertTrue(loopGraph.hasPath(0, 4));
     }
 
-
     @Test
+    @Disabled
     @DisplayName("Get number of connected components")
     void connectedComponentsCountTest() {
         Graph<Character> newGraph = new Graph<>(
@@ -132,5 +147,14 @@ class GraphTest {
         assertEquals(3, multipleComponentsGraph.getLargestComponent());
         assertEquals(5, loopGraph.getLargestComponent());
         assertEquals(6, graph.getLargestComponent());
+    }
+
+    @Test
+    @Disabled
+    @DisplayName("Get shortest path to the element")
+    void getShortestPathTest() {
+        // shortest path from root to x
+        assertEquals(new Graph<Character>(new int[][]{{3}, {4}, {0}}, new Character[]{'a', 'd', 'x'}),
+                shortestPathGraph.getShortestPath(4));
     }
 }
